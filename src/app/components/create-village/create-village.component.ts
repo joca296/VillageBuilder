@@ -41,8 +41,8 @@ export class CreateVillageComponent implements OnInit {
             y = Math.floor(Math.random()*50);//0-49
             break;
           case "ne" :
-            x = Math.floor(Math.random()*50)+50;//50-99
-            y = Math.floor(Math.random()*50);//0-49
+            x = Math.floor(Math.random()*50);//0-49
+            y = Math.floor(Math.random()*50)+50;//0-49
             break;
           case "sw" :
             x = Math.floor(Math.random()*50);//0-49

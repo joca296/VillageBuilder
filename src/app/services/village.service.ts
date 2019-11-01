@@ -62,4 +62,8 @@ export class VillageService {
 
     return result;
   }
+
+  getVillages () {
+    return this.firestore.collection<Village>('villages', ref => ref.orderBy('x','asc').orderBy('y','asc')).valueChanges();
+  }
 }

@@ -15,6 +15,8 @@ import { LoginComponent } from './components/login/login.component';
 import { GameComponent } from './components/game/game.component';
 import { CreateVillageComponent } from './components/create-village/create-village.component'
 
+import { AngularDraggableModule } from 'angular2-draggable';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +32,7 @@ import { CreateVillageComponent } from './components/create-village/create-villa
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    AngularDraggableModule,
     FormsModule,
   ],
   providers: [],

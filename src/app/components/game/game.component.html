@@ -1,1 +1,15 @@
-<p>game works!</p>
+<div ngDraggable ngResizable unselectable="on" onselectstart="return false;" onmousedown="return false;" class="map" [ngStyle]="{'background-image': 'url(' + terrainURL + ')'}">
+  <div *ngFor="let mapRow of map" class="mapRow">
+    <a *ngFor="let mapCell of mapRow">
+
+      <ng-container *ngIf="mapCell != null; else elseTemplate">
+        <a href="#" class="map-cell" [ngStyle]="{'background-image': 'url(' + villageOnMapURL + ')'}"></a>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <a href="#" class="map-cell"></a>
+      </ng-template>
+
+    </a>
+  </div>
+</div>
+
