@@ -4,6 +4,7 @@ import { Village } from 'src/app/models/village.model';
 import { Constants } from 'src/app/models/constants';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -12,17 +13,20 @@ import { Observable } from 'rxjs';
 })
 export class GameComponent implements OnInit {
   map:Village[][] = new Array;
+  url:string;
   terrainURL:string;
   villageOnMapURL:string;
 
   constructor(
     private villageService: VillageService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.storage.ref('images/terrain.jpg').getDownloadURL().subscribe(url => this.terrainURL = url);
     this.storage.ref('images/villageOnMap.png').getDownloadURL().subscribe(url => this.villageOnMapURL = url);
+    this.url = this.router.url;
 
     this.villageService.getVillages().subscribe(villages => {
       let villageCount:number = villages.length;

@@ -16,13 +16,15 @@ import { GameComponent } from './components/game/game.component';
 import { CreateVillageComponent } from './components/create-village/create-village.component'
 
 import { AngularDraggableModule } from 'angular2-draggable';
+import { VillageComponent } from './components/village/village.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     GameComponent,
-    CreateVillageComponent
+    CreateVillageComponent,
+    VillageComponent
   ],
   imports: [
     BrowserModule,

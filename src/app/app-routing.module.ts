@@ -6,10 +6,13 @@ import { LoginCheckService } from './services/login-check.service';
 import { VillageCheckService } from './services/village-check.service';
 import { CreateVillageComponent } from './components/create-village/create-village.component';
 import { VillageCheckReverseService } from './services/village-check-reverse.service';
+import { VillageComponent } from './components/village/village.component';
+import { VillageOwnerService } from './services/village-owner.service';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'game' , component: GameComponent, canActivate: [LoginCheckService, VillageCheckService]},
+  { path: 'game/village/:id' , component: VillageComponent, canActivate: [VillageOwnerService]},
   { path: 'createVillage' , component: CreateVillageComponent, canActivate: [LoginCheckService, VillageCheckReverseService]},
   { path: '**', redirectTo: "/" }
 ];

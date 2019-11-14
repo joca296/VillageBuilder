@@ -84,6 +84,17 @@ export class AuthService {
       return result;
     }
 
+    async isVillageOwner(villageId:string) {
+      let result;
+      let user = this.user$.pipe(take(1)).toPromise();
+      await user.then(user => {
+        result = user.villages.find(function(element:string) {
+          return element.localeCompare(villageId) == 0;
+        }) != undefined;
+      });
+      return result;
+    }
+
     async addVillage(villageId:string) {
       let user = this.user$.pipe(take(1)).toPromise();
       await user.then(user => {

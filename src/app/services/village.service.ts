@@ -23,7 +23,10 @@ export class VillageService {
       x : x,
       y : y,
       name : villageName,
-      owner : await this.auth.getUid()
+      owner : await this.auth.getUid(),
+      barracksLv : 1,
+      storageLv : 1,
+      goldMineLv : 1,
     }
 
     const villageRef = this.firestore.doc<Village>(`villages/${newVillage.id}`);
@@ -65,5 +68,9 @@ export class VillageService {
 
   getVillages () {
     return this.firestore.collection<Village>('villages', ref => ref.orderBy('x','asc').orderBy('y','asc')).valueChanges();
+  }
+
+  getVillage (villageId:string) {
+    return this.firestore.doc<Village>(`villages/${villageId}`).valueChanges();
   }
 }

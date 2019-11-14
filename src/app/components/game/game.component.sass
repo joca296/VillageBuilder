@@ -6,10 +6,8 @@
   -ms-user-select :none
   user-select : none
   -o-user-select : none
-
-.mapRow
-  margin : 0
-  height : 96px
+  overflow-x : hidden
+  overflow-y : hidden
 
 .ng-dragging
   cursor : grabbing
@@ -17,10 +15,11 @@
 .map-cell
   display : inline-block
   background-size : contain
+  background-color: rgb(233,233,233)
   width : 96px
   height : 96px
-  border : 1px solid gray
-  margin : 0
+  margin : 3px
+  border-radius : 15px
 
-a:hover
+.map-cell:hover
   background-color : rgba(0, 153, 255, .3)

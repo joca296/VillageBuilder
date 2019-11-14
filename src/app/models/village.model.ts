@@ -4,4 +4,7 @@ export interface Village {
   y:number;
   owner:string;
   name:string;
+  barracksLv:number;
+  storageLv:number;
+  goldMineLv:number;
 }
