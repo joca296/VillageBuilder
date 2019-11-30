@@ -1,9 +1,11 @@
+<app-village-nav [village]="village"></app-village-nav>
+
 <div class="container">
   <div class="row d-flex justify-content-center">
     <div class="col-3 village-element d-flex align-items-center justify-content-center">
-        <span class="circle-text text-center">
-          {{village.storageLv}}
-        </span>
+      <span class="circle-text text-center">
+        {{village.storageLv}}
+      </span>
     </div>
     <div class="col-3 village-element d-flex align-items-center justify-content-center" [ngStyle]="{'background-image': 'url(' + barracksURL + ')'}">
       <span class="circle-text text-center">

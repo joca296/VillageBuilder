@@ -19,6 +19,7 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { VillageComponent } from './components/village/village.component';
 import { GameModule } from './modules/game/game.module';
 import { VillageModule } from './modules/village/village.module';
+import { VillageNavComponent } from './components/village-nav/village-nav.component';
 
 @NgModule({
   declarations: [
