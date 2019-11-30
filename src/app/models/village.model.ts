@@ -7,4 +7,5 @@ export interface Village {
   barracksLv:number;
   storageLv:number;
   goldMineLv:number;
+  gold:number;
 }

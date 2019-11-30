@@ -27,6 +27,7 @@ export class VillageService {
       barracksLv : 1,
       storageLv : 1,
       goldMineLv : 1,
+      gold: 0
     }
 
     const villageRef = this.firestore.doc<Village>(`villages/${newVillage.id}`);

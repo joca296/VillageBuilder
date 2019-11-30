@@ -16,6 +16,7 @@ export class GameComponent implements OnInit {
   url:string;
   terrainURL:string;
   villageOnMapURL:string;
+  cellSize:number = 96;
 
   constructor(
     private villageService: VillageService,
@@ -50,4 +51,13 @@ export class GameComponent implements OnInit {
     })
   }
 
+  zoomIn() {
+    if(this.cellSize - 12 < 144)
+      this.cellSize += 12;
+  }
+
+  zoomOut() {
+    if(this.cellSize - 12 > 24)
+      this.cellSize -= 12;
+  }
 }

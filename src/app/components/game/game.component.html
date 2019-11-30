@@ -1,15 +1,23 @@
-<div ngDraggable ngResizable unselectable="on" onselectstart="return false;" onmousedown="return false;" class="map">
-  <div *ngFor="let mapRow of map" class="mapRow">
-    <a *ngFor="let mapCell of mapRow">
+<app-game-nav></app-game-nav>
 
-      <ng-container *ngIf="mapCell != null; else elseTemplate">
-        <a href="{{url}}/village/{{mapCell.id}}" class="map-cell" [ngStyle]="{'background-image': 'url(' + villageOnMapURL + ')'}"></a>
-      </ng-container>
-      <ng-template #elseTemplate>
-        <a class="map-cell"></a>
-      </ng-template>
+<div class="container">
+  <div class="row">
+    <div class="col map">
 
-    </a>
+      <div class="controls">
+        <button class="btn btn-primary control-button" (click)="zoomIn()">+</button>
+        <button class="btn btn-primary control-button" (click)="zoomOut()">-</button>
+      </div>
+
+      <div ngDraggable unselectable="on" onselectstart="return false;" onmousedown="return false;" (inBounds)="true">
+        <div *ngFor="let mapRow of map">
+          <div *ngFor="let mapCell of mapRow" class="map-cell" [ngStyle]="{'width.px' : cellSize, 'height.px' : cellSize}">
+            <a *ngIf="mapCell != null" href="{{url}}/village/{{mapCell.id}}">
+              <img src="{{villageOnMapURL}}" [ngStyle]="{'width.px' : cellSize, 'height.px' : cellSize}">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-

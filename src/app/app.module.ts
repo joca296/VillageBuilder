@@ -17,18 +17,20 @@ import { CreateVillageComponent } from './components/create-village/create-villa
 
 import { AngularDraggableModule } from 'angular2-draggable';
 import { VillageComponent } from './components/village/village.component';
+import { GameModule } from './modules/game/game.module';
+import { VillageModule } from './modules/village/village.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    GameComponent,
-    CreateVillageComponent,
-    VillageComponent
+    CreateVillageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    GameModule,
+    VillageModule,
     RouterModule.forRoot([]),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
