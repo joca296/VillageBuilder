@@ -14,7 +14,7 @@ export class VillageCheckService {
   }
 
   async canActivate() {
-    if (await this.auth.hasVillage()) {
+    if (await this.auth.isAuthenticated() && await this.auth.hasVillage()) {
       return true;
     }
     else {

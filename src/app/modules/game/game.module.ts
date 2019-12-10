@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GameComponent } from 'src/app/components/game/game.component';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { GameNavComponent } from '../../components/game-nav/game-nav.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { GameNavComponent } from '../../components/game-nav/game-nav.component';
   ],
   imports: [
     CommonModule,
-    AngularDraggableModule
+    AngularDraggableModule,
+    FormsModule
   ],
   exports: [
     GameComponent

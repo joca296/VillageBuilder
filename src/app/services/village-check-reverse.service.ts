@@ -14,7 +14,7 @@ export class VillageCheckReverseService {
   }
 
   async canActivate() {
-    if (await this.auth.hasVillage()) {
+    if (await this.auth.isAuthenticated() && await this.auth.hasVillage()) {
       this.router.navigate(['game']);
       return false;
     }

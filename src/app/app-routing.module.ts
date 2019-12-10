@@ -11,9 +11,9 @@ import { VillageOwnerService } from './services/village-owner.service';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'game' , component: GameComponent, canActivate: [LoginCheckService, VillageCheckService]},
+  { path: 'game' , component: GameComponent, canActivate: [VillageCheckService]},
   { path: 'game/village/:id' , component: VillageComponent, canActivate: [VillageOwnerService]},
-  { path: 'createVillage' , component: CreateVillageComponent, canActivate: [LoginCheckService, VillageCheckReverseService]},
+  { path: 'createVillage' , component: CreateVillageComponent, canActivate: [VillageCheckReverseService]},
   { path: '**', redirectTo: "/" }
 ];
 

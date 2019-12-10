@@ -14,7 +14,7 @@ export class VillageOwnerService {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let villageId:string = route.url[2].path;
-    if (await this.auth.isVillageOwner(villageId)) {
+    if (await this.auth.isAuthenticated() && await this.auth.isVillageOwner(villageId)) {
       return true;
     }
     else {

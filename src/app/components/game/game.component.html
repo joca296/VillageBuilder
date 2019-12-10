@@ -1,24 +1,49 @@
-<app-game-nav></app-game-nav>
+<app-game-nav (changedX)='onNavValueChangeX($event)' (changedY)='onNavValueChangeY($event)'></app-game-nav>
 
-<div class="container">
-  <div class="row">
-    <div class="col map">
+<div class="map">
 
-      <div class="controls">
-        <button class="btn btn-primary control-button" (click)="zoomIn()">+</button>
-        <button class="btn btn-primary control-button" (click)="zoomOut()">-</button>
-      </div>
-
-      <div ngDraggable unselectable="on" onselectstart="return false;" onmousedown="return false;" (inBounds)="true">
-        <div *ngFor="let mapRow of map">
-          <div *ngFor="let mapCell of mapRow" class="map-cell" [ngStyle]="{'width.px' : cellSize, 'height.px' : cellSize}">
-            <a *ngIf="mapCell != null" href="{{url}}/village/{{mapCell.id}}">
-              <img src="{{villageOnMapURL}}" [ngStyle]="{'width.px' : cellSize, 'height.px' : cellSize}">
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <div class="resolution-control">
+    <button class="btn btn-primary control-button" (click)="zoomIn()">+</button>
+    <button class="btn btn-primary control-button" (click)="zoomOut()">-</button>
   </div>
+
+  <div class="ruler-x">
+    <div class="ruler-cell" *ngFor="let cell of rulerX" [ngStyle]="{'height.%' : 100/resolution, 'width.%' : 100}">
+      <p>
+        {{cell}}
+      </p>
+    </div>
+  </div>
+  <div class="ruler-y">
+    <div class="ruler-cell" *ngFor="let cell of rulerY" [ngStyle]="{'width.%' : 100/resolution, 'height.%' : 100}">
+      <p>
+        {{cell}}
+      </p>
+    </div>
+  </div>
+
+  <button class="btn btn-primary left" (click)="moveNegativeY()">
+    &#8592;
+  </button>
+
+  <button class="btn btn-primary right" (click)="movePositiveY()">
+    &#8594;
+  </button>
+
+  <button class="btn btn-primary up" (click)="moveNegativeX()">
+    &#8593;
+  </button>
+
+  <button class="btn btn-primary down" (click)="movePositiveX()">
+    &#8595;
+  </button>
+
+  <div *ngFor="let mapRow of map" class="row map-row" [ngStyle]="{'height.%' : 100/resolution}">
+    <div *ngFor="let mapCell of mapRow" class="map-cell" [ngStyle]="{'width.%' : 100/resolution , 'height.%' : 100}">
+      <a *ngIf="mapCell != null" href="{{url}}/village/{{mapCell.id}}">
+        <img src="{{villageOnMapURL}}">
+      </a>
+    </div>
+  </div>
+
 </div>

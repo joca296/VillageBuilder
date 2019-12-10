@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { VillageService } from 'src/app/services/village.service';
 import { Village } from 'src/app/models/village.model';
@@ -10,8 +10,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./game-nav.component.sass']
 })
 export class GameNavComponent implements OnInit {
+  @Output() changedX = new EventEmitter();
+  @Output() changedY = new EventEmitter();
   villages:Village[] = new Array;
   url:string;
+
+  x = 0;
+  y = 0;
 
   constructor(
     public auth: AuthService,
@@ -28,6 +33,14 @@ export class GameNavComponent implements OnInit {
         })
       })
     })
+  }
+
+  onValueChangeX() {
+    this.changedX.emit(this.x.toString());
+  }
+
+  onValueChangeY() {
+    this.changedY.emit(this.y.toString());
   }
 
 }

@@ -12,11 +12,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./game.component.sass']
 })
 export class GameComponent implements OnInit {
-  map:Village[][] = new Array;
+  fullMmap:Village[][] = new Array;
+
+  map:Village[][];
+  startX:number = 0;
+  startY:number = 0;
+  resolution:number = 10;
+
+  rulerX:number[];
+  rulerY:number[];
+
   url:string;
   terrainURL:string;
   villageOnMapURL:string;
-  cellSize:number = 96;
 
   constructor(
     private villageService: VillageService,
@@ -34,30 +42,97 @@ export class GameComponent implements OnInit {
       let currentVillage:number = 0;
 
       for (let i = 0; i < Constants.x; i++) {
-        this.map[i] = [];
+        this.fullMmap[i] = [];
         for (let j = 0; j < Constants.y; j++) {
 
           if(currentVillage < villageCount && villages[currentVillage].x == i && villages[currentVillage].y == j) {
-            this.map[i][j] = villages[currentVillage];
+            this.fullMmap[i][j] = villages[currentVillage];
             currentVillage ++;
           }
           else {
-            this.map[i][j] = null;
+            this.fullMmap[i][j] = null;
           }
 
         }
       }
 
+      this.onMapDisplayChange();
     })
   }
 
+  onNavValueChangeX(x) {
+    x = parseInt(x);
+    if (x < 0)
+      this.startX = 0;
+    else if (x > Constants.x - this.resolution)
+      this.startX = Constants.x - this.resolution;
+    else
+      this.startX = x;
+    this.onMapDisplayChange();
+  }
+
+  onNavValueChangeY(y) {
+    y = parseInt(y);
+    if (y < 0)
+      this.startY = 0;
+    else if (y > Constants.y - this.resolution)
+      this.startY = Constants.y - this.resolution;
+    else
+      this.startY = y;
+    this.onMapDisplayChange();
+  }
+
+  onMapDisplayChange() {
+    let x:number = this.startX;
+    let y:number = this.startY;
+    console.log(x,y);
+
+    this.map = new Array;
+    this.rulerX = new Array;
+    this.rulerY = new Array;
+    for (let i=0; i < this.resolution; i++) {
+      this.map[i] = [];
+      for (let j=0; j < this.resolution; j++) {
+        this.map[i][j] = this.fullMmap[x][y];
+        y++;
+      }
+      x++;
+      y = this.startY;
+      this.rulerX[i] = this.startX + i;
+      this.rulerY[i] = this.startY + i;
+    }
+
+  }
+
   zoomIn() {
-    if(this.cellSize - 12 < 144)
-      this.cellSize += 12;
+    if (this.resolution - 1 >= 5)
+      this.resolution--;
+    this.onMapDisplayChange();
   }
 
   zoomOut() {
-    if(this.cellSize - 12 > 24)
-      this.cellSize -= 12;
+    if (this.resolution + 1 <= 25)
+      this.resolution++;
+    this.onMapDisplayChange();
+  }
+
+  movePositiveX() {
+    this.startX + this.resolution <= Constants.x ? this.startX += this.resolution : this.startX = Constants.x;
+    this.onMapDisplayChange();
+  }
+
+  moveNegativeX() {
+    this.startX - this.resolution >= 0 ? this.startX -= this.resolution : this.startX = 0;
+    this.onMapDisplayChange();
+  }
+
+  movePositiveY() {
+    this.startY + this.resolution <= Constants.y ? this.startY += this.resolution : this.startY = Constants.y;
+    this.onMapDisplayChange();
+  }
+
+  moveNegativeY() {
+    this.startY - this.resolution >= 0 ? this.startY -= this.resolution : this.startY = 0;
+    this.onMapDisplayChange();
   }
 }
