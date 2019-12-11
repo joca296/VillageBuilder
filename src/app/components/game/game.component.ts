@@ -117,7 +117,7 @@ export class GameComponent implements OnInit {
   }
 
   movePositiveX() {
-    this.startX + this.resolution <= Constants.x ? this.startX += this.resolution : this.startX = Constants.x;
+    this.startX + this.resolution <= Constants.x ? this.startX += this.resolution : this.startX = Constants.x - this.resolution;
     this.onMapDisplayChange();
   }
 
@@ -127,7 +127,7 @@ export class GameComponent implements OnInit {
   }
 
   movePositiveY() {
-    this.startY + this.resolution <= Constants.y ? this.startY += this.resolution : this.startY = Constants.y;
+    this.startY + this.resolution <= Constants.y ? this.startY += this.resolution : this.startY = Constants.y - this.resolution;
     this.onMapDisplayChange();
   }
 
