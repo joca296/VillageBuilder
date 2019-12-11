@@ -14,7 +14,7 @@ export class VillageComponent implements OnInit {
   village:Village;
   goldMineURL:string;
   barracksURL:string;
-  storageURL:string;
+  lumberMillURL:string;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +30,8 @@ export class VillageComponent implements OnInit {
     ).subscribe(village => {
       this.village = village;
       this.storage.ref(`images/barracks${village.barracksLv}.png`).getDownloadURL().subscribe(url => this.barracksURL = url);
+      this.storage.ref(`images/goldMine${village.goldMineLv}.png`).getDownloadURL().subscribe(url => this.goldMineURL = url);
+      this.storage.ref(`images/lumberMill${village.lumberMillLv}.png`).getDownloadURL().subscribe(url => this.lumberMillURL = url);
     });
   }
 

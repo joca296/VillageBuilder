@@ -14,12 +14,21 @@ export class VillageNavComponent implements OnInit {
   @Input() village:Village;
   gph = Constants.goldGenerationPerHour;
   gmum = Constants.goldMineUpgradeMulti;
+  gcap = Constants.goldCap;
+
+  lph = Constants.lumberGenerationPerHour;
+  lmum = Constants.lumberMillUpgradeMulti;
+  lcap = Constants.lumberCap;
 
   constructor(
     public auth: AuthService
   ) { }
 
   ngOnInit() {
+  }
+
+  floor(number:number) {
+    return Math.floor(number);
   }
 
 }

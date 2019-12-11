@@ -9,16 +9,12 @@
 
   <div class="ruler-x">
     <div class="ruler-cell" *ngFor="let cell of rulerX" [ngStyle]="{'height.%' : 100/resolution, 'width.%' : 100}">
-      <p>
-        {{cell}}
-      </p>
+      {{cell}}
     </div>
   </div>
   <div class="ruler-y">
     <div class="ruler-cell" *ngFor="let cell of rulerY" [ngStyle]="{'width.%' : 100/resolution, 'height.%' : 100}">
-      <p>
-        {{cell}}
-      </p>
+      {{cell}}
     </div>
   </div>
 

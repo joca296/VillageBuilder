@@ -25,9 +25,10 @@ export class VillageService {
       name : villageName,
       owner : await this.auth.getUid(),
       barracksLv : 1,
-      storageLv : 1,
+      lumberMillLv : 1,
       goldMineLv : 1,
-      gold: 0
+      gold: 100,
+      lumber: 200
     }
 
     const villageRef = this.firestore.doc<Village>(`villages/${newVillage.id}`);

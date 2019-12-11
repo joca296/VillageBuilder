@@ -5,7 +5,8 @@ export interface Village {
   owner:string;
   name:string;
   barracksLv:number;
-  storageLv:number;
+  lumberMillLv:number;
   goldMineLv:number;
   gold:number;
+  lumber:number;
 }
