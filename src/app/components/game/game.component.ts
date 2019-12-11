@@ -117,22 +117,22 @@ export class GameComponent implements OnInit {
   }
 
   movePositiveX() {
-    this.startX + this.resolution <= Constants.x ? this.startX += this.resolution : this.startX = Constants.x - this.resolution;
+    this.startX + this.resolution < Constants.x ? this.startX += this.resolution : this.startX = Constants.x - this.resolution;
     this.onMapDisplayChange();
   }
 
   moveNegativeX() {
-    this.startX - this.resolution >= 0 ? this.startX -= this.resolution : this.startX = 0;
+    this.startX - this.resolution > 0 ? this.startX -= this.resolution : this.startX = 0;
     this.onMapDisplayChange();
   }
 
   movePositiveY() {
-    this.startY + this.resolution <= Constants.y ? this.startY += this.resolution : this.startY = Constants.y - this.resolution;
+    this.startY + this.resolution < Constants.y ? this.startY += this.resolution : this.startY = Constants.y - this.resolution;
     this.onMapDisplayChange();
   }
 
   moveNegativeY() {
-    this.startY - this.resolution >= 0 ? this.startY -= this.resolution : this.startY = 0;
+    this.startY - this.resolution > 0 ? this.startY -= this.resolution : this.startY = 0;
     this.onMapDisplayChange();
   }
 }
