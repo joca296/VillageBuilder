@@ -1,35 +1,45 @@
-<app-village-nav [village]="village"></app-village-nav>
+<ng-container *ngIf="village; then thenTemplate; else elseTemplate"></ng-container>
 
-<div class="container">
-  <div class="row d-flex justify-content-center">
-    <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#lumberMillModal" [ngStyle]="{'background-image': 'url(' + lumberMillURL + ')'}">
-      <span class="circle-text text-center">
-        {{village.lumberMillLv}}
-      </span>
+<ng-template #thenTemplate>
+
+  <app-village-nav [villageId]="village.id"></app-village-nav>
+
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#lumberMillModal" [ngStyle]="{'background-image': 'url(' + lumberMillURL + ')'}">
+        <span class="circle-text text-center">
+          {{village.lumberMillLv}}
+        </span>
+      </div>
+      <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#barracksModal" [ngStyle]="{'background-image': 'url(' + barracksURL + ')'}">
+        <span class="circle-text text-center">
+          {{village.barracksLv}}
+        </span>
+      </div>
     </div>
-    <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#barracksModal" [ngStyle]="{'background-image': 'url(' + barracksURL + ')'}">
-      <span class="circle-text text-center">
-        {{village.barracksLv}}
-      </span>
+    <div class="row d-flex justify-content-center">
+      <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#goldMineModal" [ngStyle]="{'background-image': 'url(' + goldMineURL + ')'}">
+        <span class="circle-text text-center">
+          {{village.goldMineLv}}
+        </span>
+      </div>
     </div>
   </div>
-  <div class="row d-flex justify-content-center">
-    <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#goldMineModal" [ngStyle]="{'background-image': 'url(' + goldMineURL + ')'}">
-      <span class="circle-text text-center">
-        {{village.goldMineLv}}
-      </span>
-    </div>
+
+  <div class="modal fade" id="lumberMillModal" tabindex="-1" role="dialog" aria-labelledby="lumberMillModalLabel" aria-hidden="true">
+    <app-village-lumber-mill-modal [villageId]="village.id"></app-village-lumber-mill-modal>
   </div>
-</div>
 
-<div class="modal fade" id="lumberMillModal" tabindex="-1" role="dialog" aria-labelledby="lumberMillModalLabel" aria-hidden="true">
-  <app-village-gold-mine-modal></app-village-gold-mine-modal>
-</div>
+  <div class="modal fade" id="barracksModal" tabindex="-1" role="dialog" aria-labelledby="barracksModalLabel" aria-hidden="true">
+    <app-village-barracks-modal></app-village-barracks-modal>
+  </div>
 
-<div class="modal fade" id="barracksModal" tabindex="-1" role="dialog" aria-labelledby="barracksModalLabel" aria-hidden="true">
-  <app-village-gold-mine-modal></app-village-gold-mine-modal>
-</div>
+  <div class="modal fade" id="goldMineModal" tabindex="-1" role="dialog" aria-labelledby="goldMineModalLabel" aria-hidden="true">
+    <app-village-gold-mine-modal [villageId]="village.id"></app-village-gold-mine-modal>
+  </div>
 
-<div class="modal fade" id="goldMineModal" tabindex="-1" role="dialog" aria-labelledby="goldMineModalLabel" aria-hidden="true">
-  <app-village-gold-mine-modal></app-village-gold-mine-modal>
-</div>
+</ng-template>
+
+<ng-template #elseTemplate>
+  <app-loading></app-loading>
+</ng-template>

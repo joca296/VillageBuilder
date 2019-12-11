@@ -1,17 +1,46 @@
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      ...
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
+<ng-container *ngIf="village; then thenTemplate; else elseTemplate"></ng-container>
+<ng-template #thenTemplate>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Gold Mine</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <img src="{{goldMineURL}}" alt="gold mine image" class="building-picture">
+          </div>
+          <div class="col-6">
+            <ul class="list-group">
+              <li class="list-group-item">Level: {{village.goldMineLv}}</li>
+              <li class="list-group-item">Generation per hour: {{goldPerHour}}</li>
+              <li class="list-group-item">Cap: {{goldCap}}</li>
+              <ng-container *ngIf="village.goldMineLv != 3; then thenTemplate;"></ng-container>
+              <ng-template #thenTemplate>
+                <li class="list-group-item">Upgrade cost: {{upgradeCostLumber}} lumber and {{upgradeCostGold}} gold</li>
+                <li class="list-group-item">Upgrade time: {{upgradeTime}} minutes</li>
+              </ng-template>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <ng-container *ngIf="village.goldMineLv != 3; then upgradePossible; else upgradeImpossible"></ng-container>
+        <ng-template #upgradePossible>
+          <button type="button" class="btn btn-primary">Upgrade</button>
+        </ng-template>
+        <ng-template #upgradeImpossible>
+
+        </ng-template>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
+<ng-template #elseTemplate>
+  Loading...
+</ng-template>
+

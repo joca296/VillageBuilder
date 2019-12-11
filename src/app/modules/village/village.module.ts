@@ -5,6 +5,7 @@ import { VillageNavComponent } from 'src/app/components/village-nav/village-nav.
 import { VillageGoldMineModalComponent } from '../../components/village-gold-mine-modal/village-gold-mine-modal.component';
 import { VillageBarracksModalComponent } from '../../components/village-barracks-modal/village-barracks-modal.component';
 import { VillageLumberMillModalComponent } from '../../components/village-lumber-mill-modal/village-lumber-mill-modal.component';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { VillageLumberMillModalComponent } from '../../components/village-lumber
     VillageNavComponent,
     VillageGoldMineModalComponent,
     VillageBarracksModalComponent,
-    VillageLumberMillModalComponent
+    VillageLumberMillModalComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule

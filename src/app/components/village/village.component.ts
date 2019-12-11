@@ -12,6 +12,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 })
 export class VillageComponent implements OnInit {
   village:Village;
+  villageId:string;
   goldMineURL:string;
   barracksURL:string;
   lumberMillURL:string;
