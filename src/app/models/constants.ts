@@ -59,4 +59,9 @@ export class Constants {
       default : return 0;
     }
   }
+
+  static validateBuildingType(buildingType:string):boolean {
+    const acceptedTypes:string[] = ['gm','lm','ba'];
+    return acceptedTypes.includes(buildingType);
+  }
 }

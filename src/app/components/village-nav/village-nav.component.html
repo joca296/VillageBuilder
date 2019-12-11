@@ -1,30 +1,42 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-  <a class="navbar-brand" href="#">VillageBuilder</a>
-  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-      aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavId">
-    <ul class="navbar-nav ml-lg-auto mr-lg-auto mt-2 mt-lg-0">
-      <li class="nav-item mr-3">
-        {{village.name}}
-      </li>
-      <li class="nav-item villageInfoItem mr-3">
-        X : {{village.x}}
-      </li>
-      <li class="nav-item villageInfoItem mr-3">
-        Y : {{village.y}}
-      </li>
-      <li class="nav-item villageInfoItem mr-3">
-        Gold : {{village.gold}} / {{gcap}} ({{gph}} per hour)
-      </li>
-      <li class="nav-item villageInfoItem">
-        Lumber : {{village.lumber}} / {{lcap}} ({{lph}} per hour)
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <a href="/game" class="btn btn-primary mr-2">Map</a>
-      <button class="btn btn-danger" (click)="auth.signOut()">Logout</button>
-    </form>
-  </div>
-</nav>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <a class="navbar-brand" href="#">VillageBuilder</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+      <ul class="navbar-nav ml-lg-auto mr-lg-auto mt-2 mt-lg-0">
+        <ng-container *ngIf="village; then thenTemplate; else elseTemplate"></ng-container>
+        <ng-template #thenTemplate>
+          <li class="nav-item mr-3">
+            {{village.name}}
+          </li>
+          <li class="nav-item villageInfoItem mr-3">
+            X : {{village.x}}
+          </li>
+          <li class="nav-item villageInfoItem mr-3">
+            Y : {{village.y}}
+          </li>
+          <li class="nav-item villageInfoItem mr-3">
+            Gold : {{village.gold}} / {{gcap}} ({{gph}} per hour)
+          </li>
+          <li class="nav-item villageInfoItem">
+            Lumber : {{village.lumber}} / {{lcap}} ({{lph}} per hour)
+          </li>
+        </ng-template>
+        <ng-template #elseTemplate>
+          <li class="nav-item">
+            Loading...
+          </li>
+        </ng-template>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <a href="/game" class="btn btn-primary mr-2">Map</a>
+        <button class="btn btn-danger" (click)="auth.signOut()">Logout</button>
+      </form>
+    </div>
+  </nav>
+
+
+

@@ -9,4 +9,6 @@ export interface Village {
   goldMineLv:number;
   gold:number;
   lumber:number;
+  lumberMillUpgradeTime?:number;
+  goldMineUpgradeTime?:number;
 }

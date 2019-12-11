@@ -3,6 +3,7 @@ import { Village } from 'src/app/models/village.model';
 import { VillageService } from 'src/app/services/village.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Constants } from 'src/app/models/constants';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-village-lumber-mill-modal',
@@ -19,6 +20,11 @@ export class VillageLumberMillModalComponent implements OnInit {
   upgradeCostGold:number;
   upgradeTime:number;
 
+  upgradePossible:boolean = false;
+  currentlyUpgrading:boolean = false;
+  hasMaterials:boolean = false;
+  remainingTime;
+
   constructor(
     private villageService:VillageService,
     private storage:AngularFireStorage
@@ -32,7 +38,18 @@ export class VillageLumberMillModalComponent implements OnInit {
       this.upgradeCostGold = Constants.calcUpgradeCostGold("lm", village.lumberMillLv);
       this.upgradeCostLumber = Constants.calcUpgradeCostLumber("lm", village.lumberMillLv);
       this.upgradeTime = Constants.calcUpgradeTime("lm", village.lumberMillLv);
+
+      this.currentlyUpgrading = !isNullOrUndefined(this.village.lumberMillUpgradeTime);
+      this.hasMaterials = village.gold >= this.upgradeCostGold && village.lumber >= this.upgradeCostLumber;
+      this.upgradePossible = this.village.lumberMillLv != 3 && !this.currentlyUpgrading && this.hasMaterials;
+      this.remainingTime = this.currentlyUpgrading ? new Date(this.village.lumberMillUpgradeTime) : null;
+      this.remainingTime = !isNullOrUndefined(this.remainingTime) ? this.remainingTime.toLocaleString(`en-GB`) : null;
+
       this.storage.ref(`images/lumberMill${village.lumberMillLv}.png`).getDownloadURL().subscribe(url => this.lumberMillURL = url);
     })
+  }
+
+  upgrade() {
+    this.villageService.upgradeBuilding('lm', this.village.lumberMillLv, this.village.id);
   }
 }

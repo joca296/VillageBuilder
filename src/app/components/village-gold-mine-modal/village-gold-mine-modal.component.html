@@ -29,11 +29,21 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <ng-container *ngIf="village.goldMineLv != 3; then upgradePossible; else upgradeImpossible"></ng-container>
-        <ng-template #upgradePossible>
-          <button type="button" class="btn btn-primary">Upgrade</button>
-        </ng-template>
+
+        <ng-container *ngIf="upgradePossible == true; else upgradeImpossible">
+          <button type="button" class="btn btn-primary" (click)="upgrade()">Upgrade</button>
+        </ng-container>
         <ng-template #upgradeImpossible>
+
+          <ng-container *ngIf="currentlyUpgrading == true; else noMats">
+            <button type="button" class="btn btn-dark" disabled>Upgrading... Will be finished at: {{remainingTime}}</button>
+          </ng-container>
+
+          <ng-template #noMats>
+            <ng-container *ngIf="hasMaterials == false">
+              <button type="button" class="btn btn-dark" disabled>Not enough materials</button>
+            </ng-container>
+          </ng-template>
 
         </ng-template>
       </div>

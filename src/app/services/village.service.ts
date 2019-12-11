@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Village } from '../models/village.model';
 import { take } from 'rxjs/operators';
+import { Constants } from '../models/constants';
+import { TaskService } from './task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ export class VillageService {
   constructor (
     private firestore:AngularFirestore,
     private storage:AngularFireStorage,
+    private taskService:TaskService,
     private auth:AuthService,
     private router: Router) { }
 
@@ -74,5 +77,33 @@ export class VillageService {
 
   getVillage (villageId:string) {
     return this.firestore.doc<Village>(`villages/${villageId}`).valueChanges();
+  }
+
+  upgradeBuilding (buildingType:string, currentBuildingLevel:number, villageId:string) {
+    let villageRef = this.firestore.doc<Village>(`villages/${villageId}`);
+
+    villageRef.valueChanges().pipe(take(1)).subscribe(village => {
+      if(currentBuildingLevel < 3 && Constants.validateBuildingType(buildingType)) {
+        let currentTime = Math.floor((Date.now()/1000)/60);
+        let timestamp = (currentTime + Constants.calcUpgradeTime(buildingType, currentBuildingLevel))*1000*60;
+
+        switch (buildingType) {
+          case "gm" : village.goldMineUpgradeTime = timestamp; break;
+          case "lm" : village.lumberMillUpgradeTime = timestamp; break;
+        }
+
+        village.gold -= Constants.calcUpgradeCostGold(buildingType, currentBuildingLevel);
+        village.lumber -= Constants.calcUpgradeCostLumber(buildingType, currentBuildingLevel);
+
+        villageRef.set(village, {merge : true});
+        this.taskService.createUpgradeBuildingTask(villageId,buildingType,timestamp,currentBuildingLevel);
+
+        alert("Building is upgrading");
+      }
+      else if (currentBuildingLevel >= 3)
+        alert("Invalid call of the upgradeBuilding function. Building should be at max level.");
+      else
+        alert("Invalid building type string.");
+    });
   }
 }

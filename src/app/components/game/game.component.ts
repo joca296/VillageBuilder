@@ -107,17 +107,25 @@ export class GameComponent implements OnInit {
   zoomIn() {
     if (this.resolution - 1 >= 5)
       this.resolution--;
+    if (this.resolution + this.startX > Constants.x)
+      this.startX = Constants.x - this.resolution;
+    if (this.resolution + this.startY > Constants.y)
+      this.startY = Constants.y - this.resolution;
     this.onMapDisplayChange();
   }
 
   zoomOut() {
     if (this.resolution + 1 <= 25)
       this.resolution++;
+    if (this.resolution + this.startX > Constants.x)
+      this.startX = Constants.x - this.resolution;
+    if (this.resolution + this.startY > Constants.y)
+      this.startY = Constants.y - this.resolution;
     this.onMapDisplayChange();
   }
 
   movePositiveX() {
-    this.startX + this.resolution < Constants.x ? this.startX += this.resolution : this.startX = Constants.x - this.resolution;
+    this.startX + 2*this.resolution < Constants.x ? this.startX += this.resolution : this.startX = Constants.x - this.resolution;
     this.onMapDisplayChange();
   }
 
@@ -127,7 +135,7 @@ export class GameComponent implements OnInit {
   }
 
   movePositiveY() {
-    this.startY + this.resolution < Constants.y ? this.startY += this.resolution : this.startY = Constants.y - this.resolution;
+    this.startY + 2*this.resolution < Constants.y ? this.startY += this.resolution : this.startY = Constants.y - this.resolution;
     this.onMapDisplayChange();
   }
 
