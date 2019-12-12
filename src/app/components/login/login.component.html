@@ -5,14 +5,16 @@
 <!-- User NOT logged in -->
 <ng-template #guest>
 
-  <div class="row d-flex justify-content-center">
-    <div class="col-6 text-center">
-        <h1>Welcome to Village Builder</h1>
-        <h3>Login to get started...</h3>
+  <div class="container">
+    <div class="row login-screen">
+      <div class="col-6 text-center">
+          <h1>Welcome to Village Builder</h1>
+          <h3>Login to get started...</h3>
 
-        <button class="btn btn-primary" (click)="auth.googleSignin()">
-          <i class="fa fa-google"></i> Connect with Google
-        </button>
+          <button class="btn btn-primary" (click)="auth.googleSignin()">
+            <i class="fa fa-google"></i> Connect with Google
+          </button>
+      </div>
     </div>
   </div>
 
@@ -22,11 +24,13 @@
 <!-- User logged in -->
 <ng-template #authenticated>
 
-  <div *ngIf="auth.user$ | async as user" class="row d-flex justify-content-center">
-    <div class="col-6 text-center">
-      <h1>Hello, {{ user.displayName }}</h1>
-      <a href="/game" class="btn btn-primary mr-2">Play</a>
-      <button class="btn btn-danger" (click)="auth.signOut()">Logout</button>
+  <div class="container">
+    <div *ngIf="auth.user$ | async as user" class="row login-screen">
+      <div class="col-6 text-center">
+        <h1>Hello, {{ user.displayName }}</h1>
+        <a href="/game" class="btn btn-primary mr-2">Play</a>
+        <button class="btn btn-danger" (click)="auth.signOut()">Logout</button>
+      </div>
     </div>
   </div>
 

@@ -6,6 +6,7 @@ import { VillageGoldMineModalComponent } from '../../components/village-gold-min
 import { VillageBarracksModalComponent } from '../../components/village-barracks-modal/village-barracks-modal.component';
 import { VillageLumberMillModalComponent } from '../../components/village-lumber-mill-modal/village-lumber-mill-modal.component';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { LoadingComponent } from '../../components/loading/loading.component';
     LoadingComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     VillageComponent

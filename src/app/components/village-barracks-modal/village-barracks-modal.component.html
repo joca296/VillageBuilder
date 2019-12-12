@@ -1,17 +1,65 @@
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      ...
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
+<ng-container *ngIf="village; then thenTemplate; else elseTemplate"></ng-container>
+<ng-template #thenTemplate>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Barrakcs</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <img src="{{barracksURL}}" alt="barrakcs image" class="building-picture">
+          </div>
+          <div class="col-6">
+            <ul class="list-group">
+              <li class="list-group-item">Level: {{village.barracksLv}}</li>
+              <li class="list-group-item">Unit generation speed: {{unitGenerationSpeed}} minute(s)</li>
+              <li class="list-group-item">Unit speed: {{unitSpeed}} cell/minute</li>
+              <li class="list-group-item">Unit cost: {{unitCost}} gold</li>
+              <li class="list-group-item">Cap: {{unitCap}}</li>
+              <li class="list-group-item">
+                <form class="form-inline">
+                  <div class="input-group">
+                    <input type="number" name="unitsToProduce" id="unitsToProduce" class="form-control" [(ngModel)]="unitsToProduce" placeholder="Number of units">
+                    <button class="btn btn-primary ml-2" (click)="createUnits()">Create units</button>
+                  </div>
+                </form>
+              </li>
+              <ng-container *ngIf="village.barracksLv != 3; then thenTemplate;"></ng-container>
+              <ng-template #thenTemplate>
+                <li class="list-group-item">Upgrade cost: {{upgradeCostLumber}} lumber and {{upgradeCostGold}} gold</li>
+                <li class="list-group-item">Upgrade time: {{upgradeTime}} minutes</li>
+              </ng-template>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        <ng-container *ngIf="upgradePossible == true; else upgradeImpossible">
+          <button type="button" class="btn btn-primary" (click)="upgrade()">Upgrade</button>
+        </ng-container>
+        <ng-template #upgradeImpossible>
+
+          <ng-container *ngIf="currentlyUpgrading == true; else noMats">
+            <button type="button" class="btn btn-dark" disabled>Upgrading... Will be finished at: {{remainingTime}}</button>
+          </ng-container>
+
+          <ng-template #noMats>
+            <ng-container *ngIf="hasMaterials == false">
+              <button type="button" class="btn btn-dark" disabled>Not enough materials</button>
+            </ng-container>
+          </ng-template>
+
+        </ng-template>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
+<ng-template #elseTemplate>
+  Loading...
+</ng-template>

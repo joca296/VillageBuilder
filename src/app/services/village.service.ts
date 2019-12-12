@@ -7,6 +7,9 @@ import { Village } from '../models/village.model';
 import { take } from 'rxjs/operators';
 import { Constants } from '../models/constants';
 import { TaskService } from './task.service';
+import { isNullOrUndefined } from 'util';
+import { AttackingUnits } from '../models/attackingUnits.model';
+import { ReturningUnits } from '../models/returningUnits.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +33,7 @@ export class VillageService {
       barracksLv : 1,
       lumberMillLv : 1,
       goldMineLv : 1,
+      units: 0,
       gold: 100,
       lumber: 200
     }
@@ -90,6 +94,7 @@ export class VillageService {
         switch (buildingType) {
           case "gm" : village.goldMineUpgradeTime = timestamp; break;
           case "lm" : village.lumberMillUpgradeTime = timestamp; break;
+          case "ba" : village.barracksUpgradeTime = timestamp; break;
         }
 
         village.gold -= Constants.calcUpgradeCostGold(buildingType, currentBuildingLevel);
@@ -105,5 +110,85 @@ export class VillageService {
       else
         alert("Invalid building type string.");
     });
+  }
+
+  async addUnits (numberOfUnits:number, villageId:string) {
+    let villageRef = this.firestore.doc<Village>(`villages/${villageId}`);
+
+    villageRef.valueChanges().pipe(take(1)).subscribe(async village => {
+      let unitGenerationSpeed = Constants.calcUnitGeneration(village.barracksLv)*1000*60;
+
+      let currentTime = Math.floor((Date.now()/1000)/60)*1000*60;
+
+      if (isNullOrUndefined(village.unitQueue) || village.unitQueue.length == 0)
+        village.unitQueue = new Array<number>();
+      else {
+        let lastElement = village.unitQueue.length - 1;
+        currentTime = village.unitQueue[lastElement];
+      }
+
+      //manage for cap
+      let totalUnits = village.units;
+      totalUnits += await this.getNumberOfAttackingUnits(village.id);
+      totalUnits += await this.getNumberOfReturningUnits(village.id);
+      totalUnits += village.unitQueue.length;
+
+      let unitCap = Constants.calcCap('ba',village.barracksLv);
+
+      if (numberOfUnits + totalUnits > unitCap) {
+        numberOfUnits = unitCap - totalUnits;
+        alert(`Unit cap reached, you can create ${numberOfUnits} at this time`);
+      }
+
+      //manage for resources
+      let totalCost = 0;
+      if  (numberOfUnits != 0) {
+        totalCost = numberOfUnits * Constants.unitCostGold;
+        if (totalCost > village.gold) {
+          numberOfUnits = Math.floor(village.gold/Constants.unitCostGold);
+          alert(`Not enough gold, you can create ${numberOfUnits} at this time`);
+        }
+      }
+
+      if (numberOfUnits != 0) {
+        let newQueue:number[] = new Array<number>();
+        for (let i=0; i<numberOfUnits; i++) {
+          currentTime += unitGenerationSpeed;
+          newQueue.push(currentTime);
+          village.unitQueue.push(currentTime);
+          village.gold -= Constants.unitCostGold;
+        }
+        villageRef.set(village, {merge : true});
+        this.taskService.addUnitQueue(village.id, newQueue);
+        alert("Queue added.");
+      }
+
+    })
+  }
+
+  async getNumberOfAttackingUnits (villageId:string) {
+    let attackingUnitsRef = this.firestore.collection<AttackingUnits>(`villages/${villageId}/attackingUnits`).valueChanges().pipe(take(1)).toPromise();
+    let numberOfUnits:number = 0;
+
+    await attackingUnitsRef.then(attackingUnits => {
+      attackingUnits.forEach(doc => {
+        numberOfUnits += doc.numberOfUnits;
+      })
+    });
+
+    return numberOfUnits;
+  }
+
+  async getNumberOfReturningUnits (villageId:string) {
+    let returningUnitsRef = this.firestore.collection<ReturningUnits>(`villages/${villageId}/returningUnits`).valueChanges().pipe(take(1)).toPromise();
+    let numberOfUnits:number = 0;
+
+    await returningUnitsRef.then(returningUnits => {
+      returningUnits.forEach(doc => {
+        numberOfUnits += doc.numberOfUnits;
+      })
+    });
+
+    return numberOfUnits;
   }
 }

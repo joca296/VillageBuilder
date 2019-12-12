@@ -9,6 +9,9 @@ export interface Village {
   goldMineLv:number;
   gold:number;
   lumber:number;
+  units:number;
+  unitQueue?:Array<number>;
   lumberMillUpgradeTime?:number;
   goldMineUpgradeTime?:number;
+  barracksUpgradeTime?:number;
 }

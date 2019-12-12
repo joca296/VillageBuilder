@@ -10,7 +10,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Villages</a>
         <div class="dropdown-menu" aria-labelledby="dropdownId">
           <ng-container *ngFor="let village of villages">
-            <a class="dropdown-item" href="{{url}}/village/{{village.id}}">{{village.name}} (x: {{village.x}}, y: {{village.y}}, gold: {{village.gold}})</a>
+            <a class="dropdown-item" href="{{url}}/village/{{village.id}}">{{village.name}} (x: {{village.x}}, y: {{village.y}}, gold: {{village.gold}}, lumber: {{village.lumber}})</a>
           </ng-container>
         </div>
       </li>
