@@ -21,9 +21,17 @@
           <li class="nav-item villageInfoItem mr-3">
             Gold : {{village.gold}} / {{gcap}} ({{gph}} per hour)
           </li>
-          <li class="nav-item villageInfoItem">
+          <li class="nav-item villageInfoItem mr-3">
             Lumber : {{village.lumber}} / {{lcap}} ({{lph}} per hour)
           </li>
+          <li class="nav-item villageInfoItem mr-3">
+            Units : {{village.units}} / {{ucap}}
+          </li>
+          <ng-container *ngIf="village.unitQueue && village.unitQueue.length != 0">
+            <li class="nav-item villageInfoItem">
+              Next unit : {{toLocalTime(village.unitQueue[0])}}
+            </li>
+          </ng-container>
         </ng-template>
         <ng-template #elseTemplate>
           <li class="nav-item">
@@ -32,6 +40,39 @@
         </ng-template>
       </ul>
       <form class="form-inline my-2 my-lg-0">
+        <div class="dropdown mr-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Attack information
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <h6 class="dropdown-header">Outgoing attacks</h6>
+            <ng-container *ngIf="outAttacks;">
+              <ng-container *ngFor="let outAttack of outAttacks">
+                <div class="dropdown-item">
+                  {{outAttack.destinationName}}, {{outAttack.numberOfUnits}} units - {{toLocalTime(outAttack.timeOfAttack)}}
+                </div>
+              </ng-container>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Incoming attacks</h6>
+            <ng-container *ngIf="incAttacks;">
+              <ng-container *ngFor="let incAttack of incAttacks">
+                <div class="dropdown-item">
+                  {{incAttack.sourceName}}, {{incAttack.numberOfUnits}} units - {{toLocalTime(incAttack.timeOfAttack)}}
+                </div>
+              </ng-container>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Returning units</h6>
+            <ng-container *ngIf="retUnits;">
+              <ng-container *ngFor="let retUnit of retUnits">
+                <div class="dropdown-item">
+                  {{retUnit.sourceName}}, {{retUnit.numberOfUnits}} units - {{toLocalTime(retUnit.timeOfReturn)}}
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
         <a href="/game" class="btn btn-primary mr-2">Map</a>
         <button class="btn btn-danger" (click)="auth.signOut()">Logout</button>
       </form>

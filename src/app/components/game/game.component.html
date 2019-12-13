@@ -36,9 +36,14 @@
 
   <div *ngFor="let mapRow of map" class="row map-row" [ngStyle]="{'height.%' : 100/resolution}">
     <div *ngFor="let mapCell of mapRow" class="map-cell" [ngStyle]="{'width.%' : 100/resolution , 'height.%' : 100}">
-      <a *ngIf="mapCell != null" href="{{url}}/village/{{mapCell.id}}">
-        <img src="{{villageOnMapURL}}">
-      </a>
+      <ng-container *ngIf="mapCell != null">
+        <div data-toggle="modal" [attr.data-target]="'#a' + mapCell.id + 'Modal'">
+          <img src="{{villageOnMapURL}}">
+        </div>
+        <div class="modal fade" [attr.id]="'a' + mapCell.id + 'Modal'" tabindex="-1" role="dialog" [attr.aria-labelledby]="'a' + mapCell.id + 'ModalLabel'" aria-hidden="true">
+          <app-game-village-modal [villageId]="mapCell.id"></app-game-village-modal>
+        </div>
+      </ng-container>
     </div>
   </div>
 

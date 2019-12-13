@@ -8,8 +8,9 @@ import { take } from 'rxjs/operators';
 import { Constants } from '../models/constants';
 import { TaskService } from './task.service';
 import { isNullOrUndefined } from 'util';
-import { AttackingUnits } from '../models/attackingUnits.model';
-import { ReturningUnits } from '../models/returningUnits.model';
+import { AttackingUnits } from '../models/attacking-units.model';
+import { ReturningUnits } from '../models/returning-units.model';
+import { IncomingAttack } from '../models/incoming-attack.model';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,18 @@ export class VillageService {
 
   getVillage (villageId:string) {
     return this.firestore.doc<Village>(`villages/${villageId}`).valueChanges();
+  }
+
+  getVillageIncomingAttacks (villageId:string) {
+    return this.firestore.collection<IncomingAttack>(`villages/${villageId}/incomingAttacks`).valueChanges();
+  }
+
+  getVillageOutgoingAttacks (villageId:string) {
+    return this.firestore.collection<AttackingUnits>(`villages/${villageId}/attackingUnits`).valueChanges();
+  }
+
+  getVillageReturningUnits (villageId:string) {
+    return this.firestore.collection<ReturningUnits>(`villages/${villageId}/returningUnits`).valueChanges();
   }
 
   upgradeBuilding (buildingType:string, currentBuildingLevel:number, villageId:string) {

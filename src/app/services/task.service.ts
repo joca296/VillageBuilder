@@ -21,6 +21,17 @@ export class TaskService {
     });
   }
 
+  createAttack(src:string, dest:string, numberOfUnits:number, timeOfArrival:number, distance:number) {
+    this.firestore.doc(`tasks/${timeOfArrival}/attacks/${dest}`).set({
+      source: src,
+      destination: dest,
+      distance: distance,
+      numberOfUnits: numberOfUnits,
+      timeOfArrival: timeOfArrival,
+      createdAt : Math.floor(Date.now()/1000)
+    })
+  }
+
   addUnitQueue(villageId:string, queue:number[]) {
     queue.forEach(timestamp => {
       this.firestore.doc(`tasks/${timestamp}/addUnits/${villageId}`).set({

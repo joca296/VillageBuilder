@@ -17,6 +17,8 @@ export class Constants {
   static unitGenerationSpeed:number = 3;
   static unitMoveSpeed:number = 1;
   static unitCostGold:number = 75;
+  static unitCarryWeightLumber:number = 25;
+  static unitCarryWeightGold:number = 50;
 
   static unitCap:number = 150;
   static barracksUpgradeCostGold:number = 350;
