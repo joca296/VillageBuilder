@@ -13,9 +13,11 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class VillageComponent implements OnInit {
   village:Village;
   villageId:string;
+  villageBackgroundURL:string;
   goldMineURL:string;
   barracksURL:string;
   lumberMillURL:string;
+  mapBackgroundURL:string;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +35,8 @@ export class VillageComponent implements OnInit {
       this.storage.ref(`images/barracks${village.barracksLv}.png`).getDownloadURL().subscribe(url => this.barracksURL = url);
       this.storage.ref(`images/goldMine${village.goldMineLv}.png`).getDownloadURL().subscribe(url => this.goldMineURL = url);
       this.storage.ref(`images/lumberMill${village.lumberMillLv}.png`).getDownloadURL().subscribe(url => this.lumberMillURL = url);
+      this.storage.ref(`images/villageBackground.png`).getDownloadURL().subscribe(url => this.villageBackgroundURL = url);
+      this.storage.ref('images/map-background.jpg').getDownloadURL().subscribe(url => this.mapBackgroundURL = url);
     });
   }
 

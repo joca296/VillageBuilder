@@ -20,6 +20,16 @@
               <li class="list-group-item">Unit speed: {{unitSpeed}} cell/minute</li>
               <li class="list-group-item">Unit cost: {{unitCost}} gold</li>
               <li class="list-group-item">Cap: {{unitCap}}</li>
+              <li class="list-group-item">Available Units: {{village.units}}</li>
+              <ng-container *ngIf="village.unitQueue && village.unitQueue.length != 0">
+                <li class="list-group-item">
+                  Units in queue : {{village.unitQueue.length}}
+                </li>
+                <li class="list-group-item">
+                  Next unit :
+                  <countdown-timer [end]="village.unitQueue[0]"></countdown-timer>
+                </li>
+              </ng-container>
               <li class="list-group-item">
                 <form class="form-inline">
                   <div class="input-group">
@@ -34,11 +44,12 @@
                 <li class="list-group-item">Upgrade time: {{upgradeTime}} minutes</li>
               </ng-template>
             </ul>
+            <app-alert [alert]="alert"></app-alert>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onClose()">Close</button>
 
         <ng-container *ngIf="upgradePossible == true; else upgradeImpossible">
           <button type="button" class="btn btn-primary" (click)="upgrade()">Upgrade</button>
@@ -46,7 +57,7 @@
         <ng-template #upgradeImpossible>
 
           <ng-container *ngIf="currentlyUpgrading == true; else noMats">
-            <button type="button" class="btn btn-dark" disabled>Upgrading... Will be finished at: {{remainingTime}}</button>
+            <button type="button" class="btn btn-dark" disabled>Upgrading... Will be finished in: {{timeService.toLocalTime(remainingTime)}}</button>
           </ng-container>
 
           <ng-template #noMats>

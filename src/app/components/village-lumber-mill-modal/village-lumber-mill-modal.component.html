@@ -24,11 +24,12 @@
                 <li class="list-group-item">Upgrade time: {{upgradeTime}} minutes</li>
               </ng-template>
             </ul>
+            <app-alert [alert]="alert"></app-alert>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onClose()">Close</button>
 
         <ng-container *ngIf="upgradePossible == true; else upgradeImpossible">
           <button type="button" class="btn btn-primary" (click)="upgrade()">Upgrade</button>
@@ -36,7 +37,10 @@
         <ng-template #upgradeImpossible>
 
           <ng-container *ngIf="currentlyUpgrading == true; else noMats">
-            <button type="button" class="btn btn-dark" disabled>Upgrading... Will be finished at: {{remainingTime}}</button>
+            <button type="button" class="btn btn-dark" disabled>
+              Upgrading... Will be finished in:
+              <countdown-timer [end]="remainingTime"></countdown-timer>
+            </button>
           </ng-container>
 
           <ng-template #noMats>

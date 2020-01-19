@@ -1,50 +1,60 @@
+<img src="{{mapBackgroundURL}}" class="background">
 <app-game-nav (changedX)='onNavValueChangeX($event)' (changedY)='onNavValueChangeY($event)'></app-game-nav>
 
-<div class="map">
+<div id="wrapper">
+  <div class="map">
 
-  <div class="resolution-control">
-    <button class="btn btn-primary control-button" (click)="zoomIn()">+</button>
-    <button class="btn btn-primary control-button" (click)="zoomOut()">-</button>
-  </div>
-
-  <div class="ruler-x">
-    <div class="ruler-cell" *ngFor="let cell of rulerX" [ngStyle]="{'height.%' : 100/resolution, 'width.%' : 100}">
-      {{cell}}
+    <div class="resolution-control">
+      <button class="btn btn-primary control-button" (click)="zoomIn()">+</button>
+      <button class="btn btn-primary control-button" (click)="zoomOut()">-</button>
     </div>
-  </div>
-  <div class="ruler-y">
-    <div class="ruler-cell" *ngFor="let cell of rulerY" [ngStyle]="{'width.%' : 100/resolution, 'height.%' : 100}">
-      {{cell}}
+
+    <div class="ruler-x">
+      <div class="ruler-cell" *ngFor="let cell of rulerX" [ngStyle]="{'height.%' : 100/resolution, 'width.%' : 100}">
+        {{cell}}
+      </div>
     </div>
-  </div>
-
-  <button class="btn btn-primary left" (click)="moveNegativeY()">
-    &#8592;
-  </button>
-
-  <button class="btn btn-primary right" (click)="movePositiveY()">
-    &#8594;
-  </button>
-
-  <button class="btn btn-primary up" (click)="moveNegativeX()">
-    &#8593;
-  </button>
-
-  <button class="btn btn-primary down" (click)="movePositiveX()">
-    &#8595;
-  </button>
-
-  <div *ngFor="let mapRow of map" class="row map-row" [ngStyle]="{'height.%' : 100/resolution}">
-    <div *ngFor="let mapCell of mapRow" class="map-cell" [ngStyle]="{'width.%' : 100/resolution , 'height.%' : 100}">
-      <ng-container *ngIf="mapCell != null">
-        <div data-toggle="modal" [attr.data-target]="'#a' + mapCell.id + 'Modal'">
-          <img src="{{villageOnMapURL}}">
-        </div>
-        <div class="modal fade" [attr.id]="'a' + mapCell.id + 'Modal'" tabindex="-1" role="dialog" [attr.aria-labelledby]="'a' + mapCell.id + 'ModalLabel'" aria-hidden="true">
-          <app-game-village-modal [villageId]="mapCell.id"></app-game-village-modal>
-        </div>
-      </ng-container>
+    <div class="ruler-y">
+      <div class="ruler-cell" *ngFor="let cell of rulerY" [ngStyle]="{'width.%' : 100/resolution, 'height.%' : 100}">
+        {{cell}}
+      </div>
     </div>
+
+    <button class="btn btn-primary left" (click)="moveNegativeY()">
+      &#8592;
+    </button>
+
+    <button class="btn btn-primary right" (click)="movePositiveY()">
+      &#8594;
+    </button>
+
+    <button class="btn btn-primary up" (click)="moveNegativeX()">
+      &#8593;
+    </button>
+
+    <button class="btn btn-primary down" (click)="movePositiveX()">
+      &#8595;
+    </button>
+
+    <div class="map-background">
+      <img src="{{bigMapURL}}"
+        [ngStyle]="{'width.%': 100*zoom, 'height.%': 100*zoom, 'transform': 'translate(-'+ startY +'%,-' + startX + '%)'}"
+      >
+    </div>
+
+    <div *ngFor="let mapRow of map" class="row map-row" [ngStyle]="{'height.%' : 100/resolution}">
+      <div *ngFor="let mapCell of mapRow" class="map-cell" [ngStyle]="{'width.%' : 100/resolution , 'height.%' : 100}">
+        <ng-container *ngIf="mapCell != null">
+          <div data-toggle="modal" [attr.data-target]="'#a' + mapCell.id + 'Modal'">
+            <img src="{{loadBackground(mapCell)}}">
+          </div>
+          <div class="modal fade" id="{{'a' + mapCell.id + 'Modal'}}" tabindex="-1" role="dialog" aria-labelledby="'a' + mapCell.id + 'ModalLabel'" aria-hidden="true">
+            <app-game-village-modal [villageId]="mapCell.id"></app-game-village-modal>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
   </div>
 
 </div>

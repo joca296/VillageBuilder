@@ -1,28 +1,42 @@
+<img src="{{mapBackgroundURL}}" class="background">
 <ng-container *ngIf="village; then thenTemplate; else elseTemplate"></ng-container>
 
 <ng-template #thenTemplate>
 
   <app-village-nav [villageId]="village.id"></app-village-nav>
 
-  <div class="container">
-    <div class="row d-flex justify-content-center">
-      <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#lumberMillModal" [ngStyle]="{'background-image': 'url(' + lumberMillURL + ')'}">
-        <span class="circle-text text-center">
-          {{village.lumberMillLv}}
-        </span>
+  <div id="wrapper">
+    <div class="map">
+
+      <div class="building-container">
+        <div class="row d-flex justify-content-center">
+          <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#goldMineModal" [ngStyle]="{'background-image': 'url(' + goldMineURL + ')'}">
+            <span class="circle-text text-center">
+              {{village.goldMineLv}}
+            </span>
+          </div>
+          <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#lumberMillModal" [ngStyle]="{'background-image': 'url(' + lumberMillURL + ')'}">
+            <span class="circle-text text-center">
+              {{village.lumberMillLv}}
+            </span>
+          </div>
+
+        </div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#barracksModal" [ngStyle]="{'background-image': 'url(' + barracksURL + ')'}">
+            <span class="circle-text text-center">
+              {{village.barracksLv}}
+            </span>
+          </div>
+        </div>
       </div>
-      <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#barracksModal" [ngStyle]="{'background-image': 'url(' + barracksURL + ')'}">
-        <span class="circle-text text-center">
-          {{village.barracksLv}}
-        </span>
+
+      <div class="map-background">
+        <img src="{{villageBackgroundURL}}"
+          [ngStyle]="{'width.%': 100*zoom, 'height.%': 100*zoom, 'transform': 'translate(-'+ startY +'%,-' + startX + '%)'}"
+        >
       </div>
-    </div>
-    <div class="row d-flex justify-content-center">
-      <div class="col-3 village-element d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#goldMineModal" [ngStyle]="{'background-image': 'url(' + goldMineURL + ')'}">
-        <span class="circle-text text-center">
-          {{village.goldMineLv}}
-        </span>
-      </div>
+
     </div>
   </div>
 

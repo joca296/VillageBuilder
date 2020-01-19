@@ -16,10 +16,9 @@ import { GameComponent } from './components/game/game.component';
 import { CreateVillageComponent } from './components/create-village/create-village.component'
 
 import { AngularDraggableModule } from 'angular2-draggable';
-import { VillageComponent } from './components/village/village.component';
 import { GameModule } from './modules/game/game.module';
 import { VillageModule } from './modules/village/village.module';
-import { VillageNavComponent } from './components/village-nav/village-nav.component';
+import { AlertModule } from './modules/alert/alert.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +38,7 @@ import { VillageNavComponent } from './components/village-nav/village-nav.compon
     AngularFireStorageModule,
     AngularDraggableModule,
     FormsModule,
+    AlertModule
   ],
   providers: [],
   bootstrap: [AppComponent]

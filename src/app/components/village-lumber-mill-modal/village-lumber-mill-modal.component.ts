@@ -4,6 +4,7 @@ import { VillageService } from 'src/app/services/village.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Constants } from 'src/app/models/constants';
 import { isNullOrUndefined } from 'util';
+import { Alert } from '../../models/alert.model';
 
 @Component({
   selector: 'app-village-lumber-mill-modal',
@@ -25,12 +26,15 @@ export class VillageLumberMillModalComponent implements OnInit {
   hasMaterials:boolean = false;
   remainingTime;
 
+  alert:Alert;
+
   constructor(
     private villageService:VillageService,
     private storage:AngularFireStorage
   ) { }
 
   ngOnInit() {
+    this.alert = new Alert();
     this.villageService.getVillage(this.villageId).subscribe(village => {
       this.village = village;
       this.lumberCap = Constants.calcCap("lm", village.lumberMillLv);
@@ -43,7 +47,6 @@ export class VillageLumberMillModalComponent implements OnInit {
       this.hasMaterials = village.gold >= this.upgradeCostGold && village.lumber >= this.upgradeCostLumber;
       this.upgradePossible = this.village.lumberMillLv != 3 && !this.currentlyUpgrading && this.hasMaterials;
       this.remainingTime = this.currentlyUpgrading ? new Date(this.village.lumberMillUpgradeTime) : null;
-      this.remainingTime = !isNullOrUndefined(this.remainingTime) ? this.remainingTime.toLocaleString(`en-GB`) : null;
 
       this.storage.ref(`images/lumberMill${village.lumberMillLv}.png`).getDownloadURL().subscribe(url => this.lumberMillURL = url);
     })
@@ -51,5 +54,11 @@ export class VillageLumberMillModalComponent implements OnInit {
 
   upgrade() {
     this.villageService.upgradeBuilding('lm', this.village.lumberMillLv, this.village.id);
+    this.alert.setType("success");
+    this.alert.addMessage("Building is upgrading");
+  }
+
+  onClose() {
+    this.alert.clearMessages();
   }
 }

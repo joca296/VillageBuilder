@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from 'firebase';
 import { AttackService } from 'src/app/services/attack.service';
+import { Alert } from 'src/app/models/alert.model';
 
 @Component({
   selector: 'app-game-village-modal',
@@ -20,6 +21,8 @@ export class GameVillageModalComponent implements OnInit {
 
   selectedVillage:string = "0";
   numberOfUnits:number;
+
+  alert:Alert;
 
   constructor(
     private villageService: VillageService,
@@ -39,16 +42,35 @@ export class GameVillageModalComponent implements OnInit {
     this.auth.user$.subscribe(user => {
       user.villages.forEach(villageId => {
         this.villageService.getVillage(villageId).subscribe(village => {
+          this.ownedVillages = new Array();
           this.ownedVillages.push(village);
         })
       })
     })
+    this.alert = new Alert();
   }
 
-  startAttack() {
-    if (this.numberOfUnits < this.village.units)
-      alert ("Not enough units for attack.");
-    else
+  async startAttack() {
+    if (this.selectedVillage == "0") {
+      this.alert.clearMessages();
+      this.alert.setType('danger');
+      this.alert.addMessage('Select a village');
+    }
+    else if (this.numberOfUnits > await this.villageService.getVillageUnitNumber(this.selectedVillage)){
+      this.alert.clearMessages();
+      this.alert.setType('danger');
+      this.alert.addMessage('Not eough units for attack');
+    }
+    else if (await this.attackService.isAlreadyAttacking( this.selectedVillage, this.village.id)) {
+      this.alert.clearMessages();
+      this.alert.setType('danger');
+      this.alert.addMessage('You are already attacking this village');
+    }
+    else {
+      this.alert.clearMessages();
       this.attackService.createAttack(this.selectedVillage,this.village.id,this.numberOfUnits);
+      this.alert.setType('success');
+      this.alert.addMessage('Attack started');
+    }
   }
 }

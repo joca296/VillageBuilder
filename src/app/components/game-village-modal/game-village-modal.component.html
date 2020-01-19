@@ -1,59 +1,61 @@
-<ng-container *ngIf="village; else elseTemplate">
+<!--<ng-container *ngIf="village;">-->
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{village.name}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel" *ngIf="village;">{{village.name}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-striped table-hover modal-table">
-          <tbody>
-            <tr>
-              <td>Village ID:</td>
-              <td class="text-right">{{village.id}}</td>
-            </tr>
-            <tr>
-              <td>Position:</td>
-              <td class="text-right">X: {{village.x}} Y: {{village.y}}</td>
-            </tr>
-            <tr>
-              <td>Owner:</td>
-              <td class="text-right">{{villageOwner}}</td>
-            </tr>
-            <ng-container *ngIf="isVillageOwner == false">
+        <ng-container *ngIf="village;">
+          <table class="table table-striped table-hover modal-table">
+            <tbody>
               <tr>
-                <td>
-                  <select name="selectVillage" id="selectVillage" class="form-control" [(ngModel)]="selectedVillage">
-                    <option value="0" selected>Select village...</option>
-                    <ng-container *ngFor="let ownedVillage of ownedVillages">
-                      <option value="{{ownedVillage.id}}">{{ownedVillage.name}}, {{ownedVillage.units}} units</option>
-                    </ng-container>
-                  </select>
-                </td>
-                <td rowspan="2" class="attack-cell">
-                  <p class="ml-auto">
-                    <input type="number" name="numberOfUnits" id="numberOfUnits" class="form-control" [(ngModel)]="numberOfUnits" placeholder="Number of units">
-                  </p>
-                  <p class="ml-auto">
-                    <button type="button" class="btn btn-danger" (click)="startAttack()">Attack</button>
-                  </p>
-                </td>
+                <td>Village ID:</td>
+                <td class="text-right">{{village.id}}</td>
               </tr>
-            </ng-container>
-          </tbody>
-        </table>
+              <tr>
+                <td>Position:</td>
+                <td class="text-right">X: {{village.x}} Y: {{village.y}}</td>
+              </tr>
+              <tr>
+                <td>Owner:</td>
+                <td class="text-right">{{villageOwner}}</td>
+              </tr>
+              <ng-container *ngIf="isVillageOwner == false">
+                <tr>
+                  <td>
+                    <select name="selectVillage" id="selectVillage" class="form-control" [(ngModel)]="selectedVillage">
+                      <option value="0" selected>Select village...</option>
+                      <ng-container *ngFor="let ownedVillage of ownedVillages">
+                        <option value="{{ownedVillage.id}}">{{ownedVillage.name}}, {{ownedVillage.units}} units</option>
+                      </ng-container>
+                    </select>
+                  </td>
+                  <td rowspan="2" class="attack-cell">
+                    <p class="ml-auto">
+                      <input type="number" name="numberOfUnits" id="numberOfUnits" class="form-control" [(ngModel)]="numberOfUnits" placeholder="Number of units">
+                    </p>
+                    <p class="ml-auto">
+                      <button class="btn btn-danger" (click)="startAttack()">Attack</button>
+                    </p>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <app-alert [alert]="alert"></app-alert>
+        </ng-container>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <ng-container *ngIf="isVillageOwner == true">
-          <a href="/game/village/{{village.id}}" class="btn btn-primary">Enter Village</a>
+        <ng-container *ngIf="village;">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="alert.clearMessages()">Close</button>
+          <ng-container *ngIf="isVillageOwner == true">
+            <a href="/game/village/{{village.id}}" class="btn btn-primary">Enter Village</a>
+          </ng-container>
         </ng-container>
       </div>
     </div>
   </div>
-</ng-container>
-<ng-template #elseTemplate>
-  Loading...
-</ng-template>
+<!--</ng-container>-->

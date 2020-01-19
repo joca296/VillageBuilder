@@ -4,6 +4,7 @@ import { VillageService } from 'src/app/services/village.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Constants } from 'src/app/models/constants';
 import { isNullOrUndefined } from 'util';
+import { Alert } from 'src/app/models/alert.model';
 
 @Component({
   selector: 'app-village-gold-mine-modal',
@@ -25,12 +26,15 @@ export class VillageGoldMineModalComponent implements OnInit {
   hasMaterials:boolean = false;
   remainingTime;
 
+  alert:Alert;
+
   constructor(
     private villageService:VillageService,
     private storage:AngularFireStorage
   ) { }
 
   ngOnInit() {
+    this.alert = new Alert();
     this.villageService.getVillage(this.villageId).subscribe(village => {
       this.village = village;
       this.goldCap = Constants.calcCap("gm", village.goldMineLv);
@@ -43,7 +47,6 @@ export class VillageGoldMineModalComponent implements OnInit {
       this.hasMaterials = village.gold >= this.upgradeCostGold && village.lumber >= this.upgradeCostLumber;
       this.upgradePossible = this.village.goldMineLv != 3 && !this.currentlyUpgrading && this.hasMaterials;
       this.remainingTime = this.currentlyUpgrading ? new Date(this.village.goldMineUpgradeTime) : null;
-      this.remainingTime = !isNullOrUndefined(this.remainingTime) ? this.remainingTime.toLocaleString(`en-GB`) : null;
 
       this.storage.ref(`images/goldMine${village.goldMineLv}.png`).getDownloadURL().subscribe(url => this.goldMineURL = url);
     })
@@ -51,6 +54,12 @@ export class VillageGoldMineModalComponent implements OnInit {
 
   upgrade() {
     this.villageService.upgradeBuilding('gm', this.village.goldMineLv, this.village.id);
+    this.alert.setType("success");
+    this.alert.addMessage("Building is upgrading");
+  }
+
+  onClose() {
+    this.alert.clearMessages();
   }
 
 }

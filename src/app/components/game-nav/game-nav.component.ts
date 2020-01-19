@@ -29,6 +29,7 @@ export class GameNavComponent implements OnInit {
     this.auth.user$.subscribe(user => {
       user.villages.forEach(villageId => {
         this.villageService.getVillage(villageId).subscribe(village => {
+          this.villages = new Array();
           this.villages.push(village);
         })
       })

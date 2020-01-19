@@ -55,9 +55,4 @@ export class VillageNavComponent implements OnInit {
       });
     });
   }
-
-  toLocalTime(timestamp:number):string {
-    let date = new Date(timestamp);
-    return date.toLocaleString(`en-GB`);
-  }
 }

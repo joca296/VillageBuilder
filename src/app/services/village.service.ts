@@ -44,7 +44,6 @@ export class VillageService {
     villageRef.set(newVillage);
 
     await this.auth.addVillage(newVillage.id);
-    alert("Village Created");
     this.router.navigate(['game']);
   }
 
@@ -115,8 +114,6 @@ export class VillageService {
 
         villageRef.set(village, {merge : true});
         this.taskService.createUpgradeBuildingTask(villageId,buildingType,timestamp,currentBuildingLevel);
-
-        alert("Building is upgrading");
       }
       else if (currentBuildingLevel >= 3)
         alert("Invalid call of the upgradeBuilding function. Building should be at max level.");
@@ -140,41 +137,15 @@ export class VillageService {
         currentTime = village.unitQueue[lastElement];
       }
 
-      //manage for cap
-      let totalUnits = village.units;
-      totalUnits += await this.getNumberOfAttackingUnits(village.id);
-      totalUnits += await this.getNumberOfReturningUnits(village.id);
-      totalUnits += village.unitQueue.length;
-
-      let unitCap = Constants.calcCap('ba',village.barracksLv);
-
-      if (numberOfUnits + totalUnits > unitCap) {
-        numberOfUnits = unitCap - totalUnits;
-        alert(`Unit cap reached, you can create ${numberOfUnits} at this time`);
+      let newQueue:number[] = new Array<number>();
+      for (let i=0; i<numberOfUnits; i++) {
+        currentTime += unitGenerationSpeed;
+        newQueue.push(currentTime);
+        village.unitQueue.push(currentTime);
+        village.gold -= Constants.unitCostGold;
       }
-
-      //manage for resources
-      let totalCost = 0;
-      if  (numberOfUnits != 0) {
-        totalCost = numberOfUnits * Constants.unitCostGold;
-        if (totalCost > village.gold) {
-          numberOfUnits = Math.floor(village.gold/Constants.unitCostGold);
-          alert(`Not enough gold, you can create ${numberOfUnits} at this time`);
-        }
-      }
-
-      if (numberOfUnits != 0) {
-        let newQueue:number[] = new Array<number>();
-        for (let i=0; i<numberOfUnits; i++) {
-          currentTime += unitGenerationSpeed;
-          newQueue.push(currentTime);
-          village.unitQueue.push(currentTime);
-          village.gold -= Constants.unitCostGold;
-        }
-        villageRef.set(village, {merge : true});
-        this.taskService.addUnitQueue(village.id, newQueue);
-        alert("Queue added.");
-      }
+      villageRef.set(village, {merge : true});
+      this.taskService.addUnitQueue(village.id, newQueue);
 
     })
   }
@@ -203,5 +174,19 @@ export class VillageService {
     });
 
     return numberOfUnits;
+  }
+
+  async getVillageUnitNumber (villageId:string) {
+    let villageRef = this.getVillage(villageId).pipe(take(1)).toPromise();
+    let result:number;
+
+    await villageRef.then(village => {
+      result = village.units;
+    });
+    return result;
+  }
+
+  public averageLevel(village:Village):number {
+    return Math.round((village.lumberMillLv+village.goldMineLv+village.barracksLv)/3);
   }
 }

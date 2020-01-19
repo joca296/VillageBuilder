@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VillageService } from 'src/app/services/village.service';
+import { Alert } from 'src/app/models/alert.model';
 
 @Component({
   selector: 'app-create-village',
@@ -9,12 +10,14 @@ import { VillageService } from 'src/app/services/village.service';
 export class CreateVillageComponent implements OnInit {
   villageName:string = "";
   locationPreference:string = "0";
+  alert:Alert;
 
   constructor(
     private villageService:VillageService
   ) { }
 
   ngOnInit() {
+    this.alert = new Alert();
   }
 
   async onSubmit() {
@@ -23,10 +26,14 @@ export class CreateVillageComponent implements OnInit {
 
     //village name validation
     if (this.villageName == "") {
-      alert ("VIllage name must not be empty.");
+      this.alert.setType("danger");
+      this.alert.clearMessages();
+      this.alert.addMessage("Village name field must not be empty.");
     }
     else if (!await this.villageService.validateVillageName(this.villageName)) {
-      alert ("Village name must be unique.");
+      this.alert.setType("danger");
+      this.alert.clearMessages();
+      this.alert.addMessage("Village name must be unique.");
     }
     else {
       //determine village location
@@ -57,6 +64,7 @@ export class CreateVillageComponent implements OnInit {
       while (!await this.villageService.validateLocation(x,y));
 
       this.villageService.createVillage(this.villageName, x, y);
+      this.alert.clearMessages();
     }
   }
 }

@@ -6,40 +6,49 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavId">
-      <ul class="navbar-nav ml-lg-auto mr-lg-auto mt-2 mt-lg-0">
-        <ng-container *ngIf="village; then thenTemplate; else elseTemplate"></ng-container>
-        <ng-template #thenTemplate>
-          <li class="nav-item mr-3">
-            {{village.name}}
-          </li>
-          <li class="nav-item villageInfoItem mr-3">
-            X : {{village.x}}
-          </li>
-          <li class="nav-item villageInfoItem mr-3">
-            Y : {{village.y}}
-          </li>
-          <li class="nav-item villageInfoItem mr-3">
-            Gold : {{village.gold}} / {{gcap}} ({{gph}} per hour)
-          </li>
-          <li class="nav-item villageInfoItem mr-3">
-            Lumber : {{village.lumber}} / {{lcap}} ({{lph}} per hour)
-          </li>
-          <li class="nav-item villageInfoItem mr-3">
-            Units : {{village.units}} / {{ucap}}
-          </li>
-          <ng-container *ngIf="village.unitQueue && village.unitQueue.length != 0">
-            <li class="nav-item villageInfoItem">
-              Next unit : {{toLocalTime(village.unitQueue[0])}}
-            </li>
-          </ng-container>
-        </ng-template>
-        <ng-template #elseTemplate>
-          <li class="nav-item">
-            Loading...
-          </li>
-        </ng-template>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
+      <form class="form-inline my-2 my-lg-0 ml-lg-auto">
+        <div class="dropdown mr-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Village Information
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <ng-container *ngIf="village; then thenTemplateDropdown; else elseTemplateDropdown"></ng-container>
+            <ng-template #thenTemplateDropdown>
+              <div class="dropdown-item">
+                Name : {{village.name}}
+              </div>
+              <div class="dropdown-item">
+                X : {{village.x}}
+              </div>
+              <div class="dropdown-item">
+                Y : {{village.y}}
+              </div>
+              <div class="dropdown-item">
+                Gold : {{village.gold}} / {{gcap}} ({{gph}} per hour)
+              </div>
+              <div class="dropdown-item">
+                Lumber : {{village.lumber}} / {{lcap}} ({{lph}} per hour)
+              </div>
+              <div class="dropdown-item">
+                Units : {{village.units}} / {{ucap}}
+              </div>
+              <ng-container *ngIf="village.unitQueue && village.unitQueue.length != 0">
+                <div class="dropdown-item">
+                  Units in queue : {{village.unitQueue.length}}
+                </div>
+                <div class="dropdown-item">
+                  Next unit :
+                  <countdown-timer [end]="village.unitQueue[0]"></countdown-timer>
+                </div>
+              </ng-container>
+            </ng-template>
+            <ng-template #elseTemplateDropdown>
+              <div class="dropdown-item">
+                Loading...
+              </div>
+            </ng-template>
+          </div>
+        </div>
         <div class="dropdown mr-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Attack information
@@ -49,7 +58,8 @@
             <ng-container *ngIf="outAttacks;">
               <ng-container *ngFor="let outAttack of outAttacks">
                 <div class="dropdown-item">
-                  {{outAttack.destinationName}}, {{outAttack.numberOfUnits}} units - {{toLocalTime(outAttack.timeOfAttack)}}
+                  {{outAttack.destinationName}}, {{outAttack.numberOfUnits}} units -
+                  <countdown-timer [end]="outAttack.timeOfAttack"></countdown-timer>
                 </div>
               </ng-container>
             </ng-container>
@@ -58,7 +68,8 @@
             <ng-container *ngIf="incAttacks;">
               <ng-container *ngFor="let incAttack of incAttacks">
                 <div class="dropdown-item">
-                  {{incAttack.sourceName}}, {{incAttack.numberOfUnits}} units - {{toLocalTime(incAttack.timeOfAttack)}}
+                  {{incAttack.sourceName}}, {{incAttack.numberOfUnits}} units -
+                  <countdown-timer [end]="incAttack.timeOfAttack"></countdown-timer>
                 </div>
               </ng-container>
             </ng-container>
@@ -67,7 +78,8 @@
             <ng-container *ngIf="retUnits;">
               <ng-container *ngFor="let retUnit of retUnits">
                 <div class="dropdown-item">
-                  {{retUnit.sourceName}}, {{retUnit.numberOfUnits}} units - {{toLocalTime(retUnit.timeOfReturn)}}
+                  {{retUnit.sourceName}}, {{retUnit.numberOfUnits}} units -
+                  <countdown-timer [end]="retUnit.timeOfReturn"></countdown-timer>
                 </div>
               </ng-container>
             </ng-container>

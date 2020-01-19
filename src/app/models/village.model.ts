@@ -1,4 +1,4 @@
-export interface Village {
+export class Village {
   id:string;
   x:number;
   y:number;

@@ -7,6 +7,8 @@ import { VillageBarracksModalComponent } from '../../components/village-barracks
 import { VillageLumberMillModalComponent } from '../../components/village-lumber-mill-modal/village-lumber-mill-modal.component';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { FormsModule } from '@angular/forms';
+import { AlertModule } from '../alert/alert.module';
+import { CountdownTimerModule } from 'ngx-countdown-timer';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    AlertModule,
+    CountdownTimerModule.forRoot()
   ],
   exports: [
     VillageComponent

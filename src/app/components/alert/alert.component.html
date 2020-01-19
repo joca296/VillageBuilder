@@ -1,0 +1,18 @@
+<ng-container *ngIf="alert.hasAnyMessages();">
+  <div class="alert alert-{{alert.type}} fade show" role="alert">
+    <ng-container *ngIf="alert.hasOneMessage(); else elseTemplate">
+      {{alert.messages[0]}}
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ul>
+        <ng-container *ngFor="let message of alert.messages">
+          <li>
+            {{message}}
+          </li>
+        </ng-container>
+      </ul>
+    </ng-template>
+
+  </div>
+</ng-container>
+

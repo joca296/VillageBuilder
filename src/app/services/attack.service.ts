@@ -45,10 +45,21 @@ export class AttackService {
         this.firestore.doc<Village>(`villages/${srcVillage.id}`).set(srcVillage, {merge:true});
 
         this.taskService.createAttack(src,dest,numberOfUnits,timeOfArrival,dist);
-
-        alert("Attack started");
       })
     })
+  }
+
+  async isAlreadyAttacking(src:string, dest:string) {
+    let result:boolean = false;
+    let villageRef = this.villageService.getVillageOutgoingAttacks(src).pipe(take(1)).toPromise();
+
+    await villageRef.then(attacks => {
+      attacks.forEach(attack => {
+        if (attack.destination == dest) result = true;
+      });
+    });
+
+    return result;
   }
 
   calcDistance(srcX:number, srcY:number, destX:number, destY:number):number {

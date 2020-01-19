@@ -5,6 +5,7 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { GameNavComponent } from '../../components/game-nav/game-nav.component';
 import { FormsModule } from '@angular/forms';
 import { GameVillageModalComponent } from '../../components/game-village-modal/game-village-modal.component';
+import { AlertModule } from '../alert/alert.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { GameVillageModalComponent } from '../../components/game-village-modal/g
   imports: [
     CommonModule,
     AngularDraggableModule,
-    FormsModule
+    FormsModule,
+    AlertModule
   ],
   exports: [
     GameComponent
