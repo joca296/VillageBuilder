@@ -36,7 +36,8 @@ export class VillageService {
       goldMineLv : 1,
       units: 0,
       gold: 100,
-      lumber: 200
+      lumber: 200,
+      unitQueue: []
     }
 
     const villageRef = this.firestore.doc<Village>(`villages/${newVillage.id}`);
